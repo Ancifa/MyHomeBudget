@@ -9,19 +9,19 @@ import java.time.LocalDate;
  */
 public class DatePickerComponent {
     private LocalDate date;
-    private static final String [] DAYS_OF_MONTH = {
+    private static final String[] DAYS_OF_MONTH = {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
             "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
     };
 
-    private static final String [] MONTHS = {
+    private static final String[] MONTHS = {
             "January", "February", "March", "April",
             "May", "June", "July", "August",
             "September", "October", "November", "December"
     };
 
-    private static final String [] YEARS = {"2017", "2018"};
+    private static final String[] YEARS = {"2017", "2018", "2019", "2020"};
 
     public Box createComponent(Dimension dimension) {
         Box dateBox = Box.createHorizontalBox();
@@ -30,17 +30,17 @@ public class DatePickerComponent {
         JLabel dateFieldLabel = new JLabel("Date");
         dateFieldLabel.setPreferredSize(dimension);
 
-        JComboBox dateField = new JComboBox(DAYS_OF_MONTH);
+        JComboBox dateField = new JComboBox(getDaysArray());
         dateField.setMaximumSize(new Dimension(15, 22));
-        dateField.setSelectedIndex(date.getDayOfMonth() - 1);
+        dateField.setSelectedIndex(0);
 
-        JComboBox monthField = new JComboBox(MONTHS);
+        JComboBox monthField = new JComboBox(getMonthsArray());
         monthField.setMaximumSize(new Dimension(35, 22));
-        monthField.setSelectedIndex(date.getMonthValue() - 1);
+        monthField.setSelectedIndex(0);
 
-        JComboBox yearField = new JComboBox(YEARS);
+        JComboBox yearField = new JComboBox(getYearsArray());
         yearField.setMaximumSize(new Dimension(15, 22));
-        yearField.setSelectedIndex(date.getYear() == 2017 ? 0 : 1);
+        yearField.setSelectedIndex(0);
 
         dateBox.add(dateFieldLabel);
         dateBox.add(Box.createHorizontalStrut(6));
@@ -52,4 +52,42 @@ public class DatePickerComponent {
         return dateBox;
     }
 
+    private String[] getDaysArray() {
+        int newArrayLength = daysInMonth() - date.getDayOfMonth() + 1;
+        String[] newArrayOfDays = new String[newArrayLength];
+        for (int i = 0, j = date.getDayOfMonth() - 1; i < newArrayLength; i++, j++) {
+            newArrayOfDays[i] = DAYS_OF_MONTH[j];
+        }
+        return newArrayOfDays;
+    }
+
+    private String[] getMonthsArray() {
+        int newArrayLength = MONTHS.length - date.getMonthValue() + 1;
+        String[] newArrayOfMonths = new String[newArrayLength];
+        for (int i = 0, j = date.getMonthValue() - 1; i < newArrayLength; i++, j++) {
+            newArrayOfMonths[i] = MONTHS[j];
+        }
+        return newArrayOfMonths;
+    }
+
+    private String[] getYearsArray() {
+        int newArrayLength = 2;
+        String[] newArrayOfYears = new String[newArrayLength];
+        for (int i = 0, j = date.getYear() - 2017; i < newArrayLength; i++, j++) {
+            newArrayOfYears[i] = YEARS[j];
+        }
+        return newArrayOfYears;
+    }
+
+    private int daysInMonth() {
+        if ("February".equals(date.getMonth().toString())) {
+            return 28;
+        } else if ("April".equals(date.getMonth().toString())
+                || "June".equals(date.getMonth().toString())
+                || "September".equals(date.getMonth().toString())
+                || "November".equals(date.getMonth().toString())) {
+            return 30;
+        }
+        return 31;
+    }
 }

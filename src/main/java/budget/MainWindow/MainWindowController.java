@@ -4,6 +4,7 @@ import budget.ActionsData.Action;
 import budget.Administration.AdminController;
 import budget.Administration.User;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class MainWindowController {
 
     public String actionsListBuilder(List<Action> actionsList) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("   Date\t")
+        stringBuilder.append("   Date\t\t")
                 .append("Type\t")
                 .append("Summ\t")
                 .append("Currency\t")
@@ -54,7 +55,7 @@ public class MainWindowController {
                 .append("Description\n\n");
         for (Action action : actionsList) {
             stringBuilder.append("   ");
-            stringBuilder.append(action.getDate() + "\t");
+            stringBuilder.append(getDateString(action.getDate()) + "\t");
             stringBuilder.append(action.getType() + "\t");
             stringBuilder.append(action.getSumm() + "\t");
             stringBuilder.append(action.getCurrency() + "\t");
@@ -65,6 +66,13 @@ public class MainWindowController {
         }
 
         return String.valueOf(stringBuilder);
+    }
+
+    public String getDateString(Date date) {
+        return String.valueOf(date.toLocalDate().getDayOfMonth()) + " "
+                + String.valueOf(date.toLocalDate().getMonth()).toLowerCase() + " "
+                + String.valueOf(date.toLocalDate().getYear()) + " ("
+                + String.valueOf(date.toLocalDate().getDayOfWeek()).toLowerCase() + ")";
     }
 
     public String getLoginValue() {
