@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MyHomeBudget:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MyHomeBudget_jar</output-path>
+    <root id="archive" name="MyHomeBudget.jar">
+      <element id="module-output" name="MyHomeBudget" />
+      <element id="library" level="project" name="Java" />
+      <element id="library" level="project" name="lib" />
+    </root>
+  </artifact>
+</component>
