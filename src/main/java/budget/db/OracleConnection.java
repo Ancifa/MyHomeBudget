@@ -15,7 +15,7 @@ public class OracleConnection {
     public static final String DB_CONNECTION_PROBLEM_MESSAGE = "Something wrong with DB connection";
 
     private String dbLogin = "system";
-    private String dbPass = "xfosus";
+    private String dbPass = "password";
 
     private Connection oracleConnection() throws SQLException, ClassNotFoundException {
 

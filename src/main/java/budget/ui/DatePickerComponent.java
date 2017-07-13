@@ -32,15 +32,15 @@ public class DatePickerComponent {
 
         JComboBox dateField = new JComboBox(getDaysArray());
         dateField.setMaximumSize(new Dimension(15, 22));
-        dateField.setSelectedIndex(0);
+        dateField.setSelectedIndex(date.getDayOfMonth() - 1);
 
         JComboBox monthField = new JComboBox(getMonthsArray());
         monthField.setMaximumSize(new Dimension(35, 22));
-        monthField.setSelectedIndex(0);
+        monthField.setSelectedIndex(date.getMonthValue() - 1);
 
         JComboBox yearField = new JComboBox(getYearsArray());
         yearField.setMaximumSize(new Dimension(15, 22));
-        yearField.setSelectedIndex(0);
+        yearField.setSelectedIndex(getYearsArray().length - 1);
 
         dateBox.add(dateFieldLabel);
         dateBox.add(Box.createHorizontalStrut(6));
@@ -53,28 +53,28 @@ public class DatePickerComponent {
     }
 
     private String[] getDaysArray() {
-        int newArrayLength = daysInMonth() - date.getDayOfMonth() + 1;
+        int newArrayLength = date.getDayOfMonth();
         String[] newArrayOfDays = new String[newArrayLength];
-        for (int i = 0, j = date.getDayOfMonth() - 1; i < newArrayLength; i++, j++) {
-            newArrayOfDays[i] = DAYS_OF_MONTH[j];
+        for (int i = 0; i < newArrayLength; i++) {
+            newArrayOfDays[i] = DAYS_OF_MONTH[i];
         }
         return newArrayOfDays;
     }
 
     private String[] getMonthsArray() {
-        int newArrayLength = MONTHS.length - date.getMonthValue() + 1;
+        int newArrayLength = date.getMonthValue();
         String[] newArrayOfMonths = new String[newArrayLength];
-        for (int i = 0, j = date.getMonthValue() - 1; i < newArrayLength; i++, j++) {
-            newArrayOfMonths[i] = MONTHS[j];
+        for (int i = 0; i < newArrayLength; i++) {
+            newArrayOfMonths[i] = MONTHS[i];
         }
         return newArrayOfMonths;
     }
 
     private String[] getYearsArray() {
-        int newArrayLength = 2;
+        int newArrayLength = "January".equals(date.getMonth().toString()) ? 2 : 1;
         String[] newArrayOfYears = new String[newArrayLength];
-        for (int i = 0, j = date.getYear() - 2017; i < newArrayLength; i++, j++) {
-            newArrayOfYears[i] = YEARS[j];
+        for (int i = 0; i < newArrayLength; i++) {
+            newArrayOfYears[i] = YEARS[i];
         }
         return newArrayOfYears;
     }
