@@ -58,9 +58,9 @@
     </schema>
     <schema id="18" parent="1" name="USER1">
       <ObjectId>48</ObjectId>
-      <IntrospectionTimestamp>2017-07-04.22:19:31</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2017-07-16.23:22:52</IntrospectionTimestamp>
       <CreatedTimestamp>2017-01-06.14:57:23</CreatedTimestamp>
-      <ModifiedTimestamp>2017-07-04.22:19:25</ModifiedTimestamp>
+      <ModifiedTimestamp>2017-07-16.23:22:51</ModifiedTimestamp>
       <Visible>1</Visible>
     </schema>
     <schema id="19" parent="1" name="XS$NULL">
@@ -1346,7 +1346,7 @@
     <table id="248" parent="18" name="USERS_ACTIONS">
       <ObjectId>20151</ObjectId>
       <CreatedTimestamp>2017-01-06.15:28:40</CreatedTimestamp>
-      <ModifiedTimestamp>2017-05-09.23:41:14</ModifiedTimestamp>
+      <ModifiedTimestamp>2017-07-16.23:22:51</ModifiedTimestamp>
     </table>
     <table id="249" parent="18" name="USER_CREDIT_CARD">
       <ObjectId>21408</ObjectId>
@@ -14760,7 +14760,7 @@ CUST_FIRST_NAME</ColNames>
     </column>
     <column id="2834" parent="248" name="ACTION_SUMM">
       <Position>5</Position>
-      <DataType>FLOAT(2)|0</DataType>
+      <DataType>NUMBER(10)|0</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="2835" parent="248" name="ACTION_METHOD">

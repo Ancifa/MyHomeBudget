@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -28,7 +28,6 @@ public class MainWindowView extends JFrame implements SwingConstants{
     private List<budget.ActionsData.Action> actionsList;
     private JMenuItem itemOne;
     private JMenuItem itemTwo;
-
 
     public MainWindowView(MainWindowController controller) throws HeadlessException {
         super("My Home Budget | Main Window");
@@ -107,7 +106,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
     }
 
     private void createBottomBlock() {
-        JLabel currentDate = new JLabel(getTodayString());
+        JLabel currentDate = new JLabel(controller.getDateString(LocalDate.now()));
         JLabel loginInfo = new JLabel(LOG_IN_TEXT + controller.getLoginValue());
         Box horizontalBox = Box.createHorizontalBox();
         horizontalBox.add(Box.createHorizontalStrut(5));
@@ -119,16 +118,8 @@ public class MainWindowView extends JFrame implements SwingConstants{
         verticalBox.add(horizontalBox);
     }
 
-    private String getTodayString() {
-        LocalDateTime today = LocalDateTime.now();
-        return today.getDayOfMonth() + " " +
-                today.getMonth().toString().toLowerCase() + " " +
-                today.getYear() + " (" +
-                today.getDayOfWeek().toString().toLowerCase() + ")";
-    }
-
     private void createCentralArea() {
-        dataFillingBlock = new DataFillingBlock();
+        dataFillingBlock = new DataFillingBlock(userLogin);
 
         Box infoBox = Box.createHorizontalBox();
         centralBox = Box.createHorizontalBox();
@@ -152,4 +143,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
         verticalBox.add(centralBox);
     }
 
+    public String getUserLogin() {
+        return userLogin;
+    }
 }

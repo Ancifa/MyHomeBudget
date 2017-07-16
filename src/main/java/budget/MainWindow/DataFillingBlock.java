@@ -7,18 +7,31 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by 1 on 21.04.2017.
  */
 public class DataFillingBlock extends JFrame {
+    private JLabel lastEntryValue;
+    private DatePickerComponent datePicker;
+    private JComboBox actionTypeField;
+    private JComboBox expenceCategoryField;
+    private JComboBox actionCurrencyField;
+    private JComboBox actionMethodField;
+    private JTextField summField;
+    private JTextArea actionDescriptionArea;
+    private JButton inputButton;
+
+    private String userLogin;
+    private DataFillingController dataFillingController;
+
+    public DataFillingBlock(String userLogin) {
+        this.userLogin = userLogin;
+    }
 
     public Box createDataFillingBlock() {
+        dataFillingController = new DataFillingController(this);
         DbConstants dbConstants = new DbConstants();
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = new Date();
 
         Box mainBox = Box.createVerticalBox();
 
@@ -34,7 +47,7 @@ public class DataFillingBlock extends JFrame {
 
         JLabel expenceCategoryLabel = new JLabel("Expence category");
         DbConstants.ExpenceCategory[] expenceCategories = dbConstants.getExpenceCategories();
-        JComboBox expenceCategoryField = new JComboBox(expenceCategories);
+        expenceCategoryField = new JComboBox(expenceCategories);
         expenceCategoryField.setSelectedIndex(0);
         expenceCategoryField.setMaximumSize(new Dimension(30, 22));
         expenceCategoryBox.add(expenceCategoryLabel);
@@ -44,7 +57,7 @@ public class DataFillingBlock extends JFrame {
 
         JLabel lastEntryLabel = new JLabel("Last entry date:");
         lastEntryLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
-        JLabel lastEntryValue = new JLabel();
+        lastEntryValue = new JLabel();
         lastEntryValue.setText("-");
 //        lastEntryValue.setText(format.format(date));
         lastEntryBox.add(lastEntryLabel);
@@ -54,7 +67,7 @@ public class DataFillingBlock extends JFrame {
 
         JLabel actionDescriptionLabel = new JLabel("Description");
         actionDescriptionLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
-        JTextArea actionDescriptionArea = new JTextArea(1, 15);
+        actionDescriptionArea = new JTextArea(1, 15);
         actionDescriptionArea.setLineWrap(true);
         actionDescriptionArea.setWrapStyleWord(true);
         actionDescriptionArea.setBorder(new LineBorder(Color.GRAY, 1));
@@ -64,14 +77,14 @@ public class DataFillingBlock extends JFrame {
         actionDescriptionBox.add(actionDescriptionArea);
         actionDescriptionBox.add(Box.createHorizontalGlue());
 
-        DatePickerComponent datePicker = new DatePickerComponent();
+        datePicker = new DatePickerComponent();
         dateBox.add(datePicker.createComponent(expenceCategoryLabel.getPreferredSize()));
 //        dateBox.add(Box.createRigidArea(new Dimension(36, 1)));
 
         JLabel actionTypeLabel = new JLabel("Type");
         actionTypeLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
         DbConstants.ActionType[] actionTypes = dbConstants.getActionTypes();
-        JComboBox actionTypeField = new JComboBox(actionTypes);
+        actionTypeField = new JComboBox(actionTypes);
         actionTypeField.setSelectedIndex(1);
         actionTypeField.setMaximumSize(new Dimension(30, 22));
         actionTypeBox.add(actionTypeLabel);
@@ -81,7 +94,7 @@ public class DataFillingBlock extends JFrame {
 
         JLabel summFieldLabel = new JLabel("Summ");
         summFieldLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
-        JTextField summField = new JTextField(15);
+        summField = new JTextField(15);
         summField.setMaximumSize(new Dimension(30, 22));
         actionSummBox.add(summFieldLabel);
         actionSummBox.add(Box.createHorizontalStrut(6));
@@ -91,7 +104,7 @@ public class DataFillingBlock extends JFrame {
         JLabel actionMethodLabel = new JLabel("Method");
         actionMethodLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
         DbConstants.ActionMethod[] actionMethods = dbConstants.getActionMethods();
-        JComboBox actionMethodField = new JComboBox(actionMethods);
+        actionMethodField = new JComboBox(actionMethods);
         actionMethodField.setSelectedIndex(0);
         actionMethodField.setMaximumSize(new Dimension(30, 22));
         actionMethodBox.add(actionMethodLabel);
@@ -102,7 +115,7 @@ public class DataFillingBlock extends JFrame {
         JLabel actionCurrencyLabel = new JLabel("Currency");
         actionCurrencyLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
         DbConstants.Currency[] currencies = dbConstants.getCurrencies();
-        JComboBox actionCurrencyField = new JComboBox(currencies);
+        actionCurrencyField = new JComboBox(currencies);
         actionCurrencyField.setSelectedIndex(0);
         actionCurrencyField.setMaximumSize(new Dimension(30, 22));
         actionCurrencyBox.add(actionCurrencyLabel);
@@ -111,7 +124,10 @@ public class DataFillingBlock extends JFrame {
         actionCurrencyBox.add(Box.createHorizontalGlue());
 
         JButton clearAllButton = new JButton("Clear all");
-        JButton inputButton = new JButton("Input");
+
+        inputButton = new JButton("Input");
+        setInputButtonListener();
+
         JButton closeButton = new JButton("Close");
 //        buttonsBox.add(clearAllButton);
 //        buttonsBox.add(Box.createHorizontalStrut(12));
@@ -142,8 +158,48 @@ public class DataFillingBlock extends JFrame {
         mainBox.add(Box.createRigidArea(new Dimension(1, 150)));
         mainBox.add(Box.createVerticalGlue());
 
-//        mainBox.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new LineBorder(Color.GRAY, 1)));
-
         return mainBox;
+    }
+
+    private void setInputButtonListener() {
+        inputButton.addActionListener(e -> {
+            dataFillingController.gatherData();
+            dataFillingController.saveToDatabase(userLogin);
+            summField.setText("");
+            actionDescriptionArea.setText("");
+                }
+        );
+    }
+
+    public JLabel getLastEntryValue() {
+        return lastEntryValue;
+    }
+
+    public DatePickerComponent getDatePicker() {
+        return datePicker;
+    }
+
+    public JComboBox getActionTypeField() {
+        return actionTypeField;
+    }
+
+    public JComboBox getExpenceCategoryField() {
+        return expenceCategoryField;
+    }
+
+    public JComboBox getActionCurrencyField() {
+        return actionCurrencyField;
+    }
+
+    public JComboBox getActionMethodField() {
+        return actionMethodField;
+    }
+
+    public JTextField getSummField() {
+        return summField;
+    }
+
+    public JTextArea getActionDescriptionArea() {
+        return actionDescriptionArea;
     }
 }

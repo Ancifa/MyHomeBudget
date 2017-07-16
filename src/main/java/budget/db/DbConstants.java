@@ -127,7 +127,9 @@ public class DbConstants {
         CREDITS(12, "Credits"),
         COMMITMENTS(13, "Commitments"),
         CONTRIBUTIONS(14, "Contributions"),
-        FEES(15, "Fees");
+        FEES(15, "Fees"),
+        SALARY(16, "Salary"),
+        OTHER(17, "Other");
 
         private final int id;
         private final String description;
@@ -167,6 +169,8 @@ public class DbConstants {
         table.put(13, ExpenceCategory.COMMITMENTS.getDescription());
         table.put(14, ExpenceCategory.CONTRIBUTIONS.getDescription());
         table.put(15, ExpenceCategory.FEES.getDescription());
+        table.put(16, ExpenceCategory.SALARY.getDescription());
+        table.put(17, ExpenceCategory.OTHER.getDescription());
 
         return table;
     }
