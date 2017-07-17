@@ -10,8 +10,8 @@ public class DbConstants {
     public enum ActionType {
         INCOME(1, "Income"),
         OUTCOME(2, "Outcome"),
-        TRANSFER_TO(3, "Transfer to"),
-        TRANSFER_FFROM(4, "Trancfer from");
+        TRANSFER_TO(3, "Transfer_to"),
+        TRANSFER_FROM(4, "Transfer_from");
 
         private final int id;
         private final String description;
@@ -39,14 +39,14 @@ public class DbConstants {
         table.put(1, ActionType.INCOME.getDescription());
         table.put(2, ActionType.OUTCOME.getDescription());
         table.put(3, ActionType.TRANSFER_TO.getDescription());
-        table.put(4, ActionType.TRANSFER_FFROM.getDescription());
+        table.put(4, ActionType.TRANSFER_FROM.getDescription());
 
         return table;
     }
 
     public enum ActionMethod {
         CASH(1, "Cash"),
-        CREDIT_CARD(2, "Credit Card");
+        CREDITCARD(2, "CreditCard");
 
         private final int id;
         private final String description;
@@ -72,14 +72,14 @@ public class DbConstants {
     public Hashtable<Integer, String> getActionMethodsTable() {
         Hashtable<Integer, String> table = new Hashtable<>();
         table.put(1, ActionMethod.CASH.getDescription());
-        table.put(2, ActionMethod.CREDIT_CARD.getDescription());
+        table.put(2, ActionMethod.CREDITCARD.getDescription());
 
         return table;
     }
 
     public enum Currency {
         RUBLE(1, "Ruble"),
-        US_DOLLAR(2, "US Dollar"),
+        US_DOLLAR(2, "US_Dollar"),
         EURO(3, "Euro");
 
         private final int id;

@@ -22,7 +22,7 @@ public class OracleConnection {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Locale.setDefault(Locale.ENGLISH);
 
-            return DriverManager.getConnection(DB_LOCAL_HOST_ADDRESS, dbLogin, dbPass);
+            return DriverManager.getConnection(DB_HOST_IP_ADDRESS, dbLogin, dbPass);
     }
 
     public Connection makeConnectionAndWarnIfNull() {
