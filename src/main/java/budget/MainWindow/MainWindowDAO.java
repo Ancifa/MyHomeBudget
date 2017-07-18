@@ -121,7 +121,7 @@ public class MainWindowDAO {
         ResultSet result = statement.executeQuery(
                 "SELECT * FROM USER1.USERS_ACTIONS, USER1.USERS " +
                         "WHERE USERS_ACTIONS.USER_ID = USERS.USER_ID AND USERS.USER_NAME = '" + userLogin +
-                        "' ORDER BY ACTION_ID");
+                        "' ORDER BY ACTION_DATE DESC, ACTION_ID DESC");
         while (result.next()) {
             action = new Action();
             action.setDate(result.getDate("ACTION_DATE"));

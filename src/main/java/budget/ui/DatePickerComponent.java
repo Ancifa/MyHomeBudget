@@ -3,12 +3,18 @@ package budget.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Created by 1 on 07.05.2017.
  */
 public class DatePickerComponent {
+    private JComboBox dateField;
+    private JComboBox monthField;
+    private JComboBox yearField;
     private LocalDate date;
+
     private static final String[] DAYS_OF_MONTH = {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
@@ -30,15 +36,15 @@ public class DatePickerComponent {
         JLabel dateFieldLabel = new JLabel("Date");
         dateFieldLabel.setPreferredSize(dimension);
 
-        JComboBox dateField = new JComboBox(getDaysArray());
+        dateField = new JComboBox(getDaysArray());
         dateField.setMaximumSize(new Dimension(15, 22));
         dateField.setSelectedIndex(date.getDayOfMonth() - 1);
 
-        JComboBox monthField = new JComboBox(getMonthsArray());
+        monthField = new JComboBox(getMonthsArray());
         monthField.setMaximumSize(new Dimension(35, 22));
         monthField.setSelectedIndex(date.getMonthValue() - 1);
 
-        JComboBox yearField = new JComboBox(getYearsArray());
+        yearField = new JComboBox(getYearsArray());
         yearField.setMaximumSize(new Dimension(15, 22));
         yearField.setSelectedIndex(getYearsArray().length - 1);
 
@@ -89,5 +95,28 @@ public class DatePickerComponent {
             return 30;
         }
         return 31;
+    }
+
+    public LocalDate getDateFromPicker() {
+        String dateString = "";
+        dateString += yearField.getSelectedItem().toString() + "-";
+        dateString += monthField.getSelectedIndex() < 9 ? "0" : "";
+        dateString += monthField.getSelectedIndex() + 1 + "-";
+        dateString += dateField.getSelectedIndex() < 9 ? "0" : "";
+        dateString += dateField.getSelectedItem().toString();
+
+        return LocalDate.parse(dateString);
+    }
+
+    JComboBox getDateField() {
+        return dateField;
+    }
+
+    JComboBox getMonthField() {
+        return monthField;
+    }
+
+    JComboBox getYearField() {
+        return yearField;
     }
 }

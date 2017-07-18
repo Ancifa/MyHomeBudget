@@ -5,7 +5,6 @@ import budget.ActionsData.Action;
 import javax.swing.*;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 /**
  * Created by 1 on 15.07.2017.
@@ -22,7 +21,7 @@ public class DataFillingController {
     public void gatherData() {
         action = new Action();
 
-        action.setDate(Date.valueOf(LocalDateTime.now().toLocalDate()));
+        action.setDate(Date.valueOf(dataFillingBlock.getDatePicker().getDateFromPicker()));
         action.setType(dataFillingBlock.getActionTypeField().getSelectedItem().toString());
         action.setCategory(dataFillingBlock.getExpenceCategoryField().getSelectedItem().toString());
         action.setCurrency(dataFillingBlock.getActionCurrencyField().getSelectedItem().toString());
