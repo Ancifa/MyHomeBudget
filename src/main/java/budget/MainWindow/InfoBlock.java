@@ -2,38 +2,34 @@ package budget.MainWindow;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by 1 on 18.04.2017.
  */
 public class InfoBlock extends JFrame {
+    private JLabel totalBalanceValue;
+    private JLabel cashBalanceValue;
+    private JLabel cardBalanceValue;
+    private JLabel depositBalanceValue;
 
     public Box createInfoBoxLayout() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date today = new Date();
 
         Box mainBox = Box.createVerticalBox();
 
         JLabel totalBalanceLabel = new JLabel("Total balance:     ");
-        JLabel totalBalanceValue = new JLabel("0.00 RUB");
-
-//        JLabel dateLabel = new JLabel("Today is:");
-//        dateLabel.setPreferredSize(totalBalanceLabel.getPreferredSize());
-//        JLabel dateValue = new JLabel(dateFormat.format(today));
+        totalBalanceValue = new JLabel("-");
 
         JLabel cashBalanceLabel = new JLabel("In cash:");
         cashBalanceLabel.setPreferredSize(totalBalanceLabel.getPreferredSize());
-        JLabel cashBalanceValue = new JLabel("0.00 RUB");
+        cashBalanceValue = new JLabel("-");
 
         JLabel cardBalanceLabel = new JLabel("On cards:");
         cardBalanceLabel.setPreferredSize(totalBalanceLabel.getPreferredSize());
-        JLabel cardBalanceValue = new JLabel("0.00 RUB");
+        cardBalanceValue = new JLabel("-");
 
         JLabel depositBalanceLabel = new JLabel("On deposit:");
         depositBalanceLabel.setPreferredSize(totalBalanceLabel.getPreferredSize());
-        JLabel depositBalanceValue = new JLabel("0.00 RUB");
+        depositBalanceValue = new JLabel("-");
 
 //        Box dateRow = Box.createHorizontalBox();
         Box firstRow = Box.createHorizontalBox();
@@ -69,5 +65,37 @@ public class InfoBlock extends JFrame {
         mainBox.add(fourthRow);
 
         return mainBox;
+    }
+
+    public JLabel getTotalBalanceValue() {
+        return totalBalanceValue;
+    }
+
+    public void setTotalBalanceValue(JLabel totalBalanceValue) {
+        this.totalBalanceValue = totalBalanceValue;
+    }
+
+    public JLabel getCashBalanceValue() {
+        return cashBalanceValue;
+    }
+
+    public void setCashBalanceValue(JLabel cashBalanceValue) {
+        this.cashBalanceValue = cashBalanceValue;
+    }
+
+    public JLabel getCardBalanceValue() {
+        return cardBalanceValue;
+    }
+
+    public void setCardBalanceValue(JLabel cardBalanceValue) {
+        this.cardBalanceValue = cardBalanceValue;
+    }
+
+    public JLabel getDepositBalanceValue() {
+        return depositBalanceValue;
+    }
+
+    public void setDepositBalanceValue(JLabel depositBalanceValue) {
+        this.depositBalanceValue = depositBalanceValue;
     }
 }

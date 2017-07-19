@@ -24,7 +24,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
     private DataFillingBlock dataFillingBlock;
 
     private final static String LOG_IN_TEXT = "You are logged in as ";
-    private java.util.List<User> usersList;
+    private List<User> usersList;
     private List<budget.ActionsData.Action> actionsList;
     private JMenuItem itemOne;
     private JMenuItem itemTwo;
