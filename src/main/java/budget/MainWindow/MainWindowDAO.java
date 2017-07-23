@@ -13,7 +13,6 @@ import java.util.Date;
  * Created by 1 on 06.01.2017.
  */
 public class MainWindowDAO {
-    private MainWindowController mainWindowController;
     private OracleConnection oracleConnection;
     private DbConstants dbConstants;
 

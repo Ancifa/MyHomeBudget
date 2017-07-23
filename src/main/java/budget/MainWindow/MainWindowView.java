@@ -93,16 +93,20 @@ public class MainWindowView extends JFrame implements SwingConstants{
     private void setMenuItemTwoListener() {
         itemTwo.addActionListener(e -> {
             try {
-                textArea.setText("");
-                MainWindowDAO oracleStatement = new MainWindowDAO();
-                actionsList = oracleStatement.getActionsListFromDatabase(userLogin);
-                if (actionsList != null) {
-                    textArea.setText(controller.actionsListBuilder(actionsList));
-                }
+                setResultText();
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         });
+    }
+
+    public void setResultText() throws SQLException {
+        textArea.setText("");
+        MainWindowDAO oracleStatement = new MainWindowDAO();
+        actionsList = oracleStatement.getActionsListFromDatabase(userLogin);
+        if (actionsList != null) {
+            textArea.setText(controller.actionsListBuilder(actionsList));
+        }
     }
 
     private void createBottomBlock() {
@@ -119,7 +123,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
     }
 
     private void createCentralArea() {
-        dataFillingBlock = new DataFillingBlock(userLogin);
+        dataFillingBlock = new DataFillingBlock(this, userLogin);
 
         Box infoBox = Box.createHorizontalBox();
         centralBox = Box.createHorizontalBox();

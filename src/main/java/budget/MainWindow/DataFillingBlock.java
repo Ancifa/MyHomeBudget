@@ -6,7 +6,10 @@ import budget.ui.DatePickerComponent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.sql.SQLException;
+import java.text.NumberFormat;
 
 /**
  * Created by 1 on 21.04.2017.
@@ -18,15 +21,17 @@ public class DataFillingBlock extends JFrame {
     private JComboBox expenceCategoryField;
     private JComboBox actionCurrencyField;
     private JComboBox actionMethodField;
-    private JTextField summField;
+    private JFormattedTextField summField;
     private JTextArea actionDescriptionArea;
     private JButton inputButton;
 
     private String userLogin;
     private DataFillingController dataFillingController;
+    private MainWindowView mainWindowView;
 
-    public DataFillingBlock(String userLogin) {
+    public DataFillingBlock(MainWindowView mainWindowView, String userLogin) {
         this.userLogin = userLogin;
+        this.mainWindowView = mainWindowView;
     }
 
     public Box createDataFillingBlock() {
@@ -94,7 +99,13 @@ public class DataFillingBlock extends JFrame {
 
         JLabel summFieldLabel = new JLabel("Summ");
         summFieldLabel.setPreferredSize(expenceCategoryLabel.getPreferredSize());
-        summField = new JTextField(15);
+        NumberFormat format = NumberFormat.getIntegerInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Long.class);
+        formatter.setAllowsInvalid(false);
+        formatter.setMinimum(1L);
+        summField = new JFormattedTextField(formatter);
+        summField.setColumns(15);
         summField.setMaximumSize(new Dimension(30, 22));
         actionSummBox.add(summFieldLabel);
         actionSummBox.add(Box.createHorizontalStrut(6));
@@ -164,11 +175,16 @@ public class DataFillingBlock extends JFrame {
     private void setInputButtonListener() {
         inputButton.addActionListener(e -> {
             dataFillingController.gatherData();
+            if (summField.getValue() == null) return;
             dataFillingController.saveToDatabase(userLogin);
-            summField.setText("");
+            summField.setValue(null);
             actionDescriptionArea.setText("");
-                }
-        );
+            try {
+                mainWindowView.setResultText();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     public JLabel getLastEntryValue() {

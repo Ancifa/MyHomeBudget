@@ -19,6 +19,10 @@ public class DataFillingController {
     }
 
     public void gatherData() {
+        if ("".equals(dataFillingBlock.getSummField().getText())) {
+            JOptionPane.showMessageDialog(null, "Summ value should not be empty!");
+            return;
+        }
         action = new Action();
 
         action.setDate(Date.valueOf(dataFillingBlock.getDatePicker().getDateFromPicker()));
@@ -26,7 +30,7 @@ public class DataFillingController {
         action.setCategory(dataFillingBlock.getExpenceCategoryField().getSelectedItem().toString());
         action.setCurrency(dataFillingBlock.getActionCurrencyField().getSelectedItem().toString());
         action.setMethod(dataFillingBlock.getActionMethodField().getSelectedItem().toString());
-        action.setSumm(dataFillingBlock.getSummField().getText());
+        action.setSumm(dataFillingBlock.getSummField().getText().replaceAll(",", ""));
         action.setDescription(dataFillingBlock.getActionDescriptionArea().getText());
     }
 
