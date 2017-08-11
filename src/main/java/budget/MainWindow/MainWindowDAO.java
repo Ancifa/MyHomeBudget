@@ -1,6 +1,7 @@
 package budget.MainWindow;
 
 import budget.ActionsData.Action;
+import budget.ActionsData.BudgetSummary;
 import budget.Administration.User;
 import budget.db.DbConstants;
 import budget.db.OracleConnection;
@@ -139,6 +140,41 @@ public class MainWindowDAO {
         connection.close();
 
         return actionsList;
+    }
+
+    public BudgetSummary getUserBalance(String userLogin) {
+        BudgetSummary budgetSummary = new BudgetSummary();
+
+        oracleConnection = new OracleConnection();
+
+        Connection connection = oracleConnection.makeConnectionAndWarnIfNull();
+        if (connection == null) return null;
+
+        Statement statement = null;
+        ResultSet result = null;
+        try {
+            statement = connection.createStatement();
+            result = statement.executeQuery(
+                    "SELECT * FROM USER1.USER_BALANCE WHERE USER_ID = " + getUserId(connection, userLogin));
+            while (result.next()) {
+                budgetSummary.setTotalBalance(result.getInt("TOTAL_BALANCE"));
+                budgetSummary.setCashBalance(result.getInt("CASH_BALANCE"));
+                budgetSummary.setCardsBalance(result.getInt("CARD_BALANCE"));
+                budgetSummary.setDepositsBalance(result.getInt("DEPOSIT_BALANCE"));
+                budgetSummary.setLasrEntryDate(result.getDate("LAST_ENTRY_DATE"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (result != null) result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return budgetSummary;
     }
 
     private String getTypeName(ResultSet result) throws SQLException {

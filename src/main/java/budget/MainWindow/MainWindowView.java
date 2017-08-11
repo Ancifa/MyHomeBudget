@@ -123,6 +123,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
     }
 
     private void createCentralArea() {
+        InfoBlockController infoBlockController = new InfoBlockController(userLogin);
         dataFillingBlock = new DataFillingBlock(this, userLogin);
 
         Box infoBox = Box.createHorizontalBox();
@@ -132,7 +133,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
         centralBox.setBorder(new CompoundBorder(new EmptyBorder(1, 0, 1, 2), new LineBorder(Color.GRAY, 1)));
 
         InfoBlock infoBlock = new InfoBlock();
-        infoBox.add(infoBlock.createInfoBoxLayout());
+        infoBox.add(infoBlock.createInfoBoxLayout(infoBlockController));
         infoBox.setAlignmentX(Box.LEFT_ALIGNMENT);
 
         textArea = new JTextArea(20, 40);
