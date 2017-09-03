@@ -35,6 +35,7 @@ public class DataFillingController {
     }
 
     public void saveToDatabase(String userLogin) {
+        InfoBlockController infoBlockController = new InfoBlockController(userLogin);
         dao = new MainWindowDAO();
         if (action == null) {
             JOptionPane.showMessageDialog(null, "Action record is empty!");
@@ -42,6 +43,7 @@ public class DataFillingController {
         }
             try {
                 dao.insertActionToDatabase(action, userLogin);
+                infoBlockController.saveBudgetSummary(action, userLogin);
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }

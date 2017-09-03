@@ -1,6 +1,9 @@
 package budget.MainWindow;
 
+import budget.ActionsData.Action;
 import budget.ActionsData.BudgetSummary;
+
+import java.util.Date;
 
 /**
  * Created by 1 on 19.07.2017.
@@ -24,5 +27,23 @@ public class InfoBlockController {
     private void getBudgetSummaryData(String userLogin) {
         dao = new MainWindowDAO();
         budgetSummary = dao.getUserBalance(userLogin);
+    }
+
+    public void saveBudgetSummary(Action action, String userLogin) {
+        setSummaryData(action);
+        dao.updateUserBalance(budgetSummary, userLogin);
+        budgetSummary = dao.getUserBalance(userLogin);
+//        mountData(infoBlock);
+
+    }
+
+    private void setSummaryData(Action action) {
+        calculateSummaryData(action);
+        budgetSummary.setLasrEntryDate(new Date());
+
+    }
+
+    private void calculateSummaryData(Action action) {
+        budgetSummary.setTotalBalance(Integer.parseInt(action.getSumm()));
     }
 }

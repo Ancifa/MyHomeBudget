@@ -48,12 +48,12 @@ public class MainWindowDAO {
         OracleConnection oracleConnection = new OracleConnection();
         dbConstants = new DbConstants();
 
-        Date date = action.getDate();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
         Connection connection;
         connection = oracleConnection.makeConnectionAndWarnIfNull();
         if (connection == null) return;
+
+        Date date = action.getDate();
+        Timestamp timestamp = new Timestamp(date.getTime());
 
         String insertString = "insert into user1.users_actions " +
                 "(user_id, action_type, action_description, action_summ, " +
@@ -175,6 +175,46 @@ public class MainWindowDAO {
         }
 
         return budgetSummary;
+    }
+
+    public void updateUserBalance(BudgetSummary summary, String userLogin) {
+        OracleConnection oracleConnection = new OracleConnection();
+
+        Connection connection;
+        connection = oracleConnection.makeConnectionAndWarnIfNull();
+        if (connection == null) return;
+
+        Date date = summary.getLasrEntryDate();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        String insertString = "UPDATE USER1.USER_BALANCE SET " +
+                "TOTAL_BALANCE = ?, " +
+                "CASH_BALANCE = ?, " +
+                "CARD_BALANCE = ?, " +
+                "DEPOSIT_BALANCE = ?, " +
+                "LAST_ENTRY_DATE = ? " +
+                "WHERE USER_ID = ?";
+        PreparedStatement prst = null;
+        try {
+            prst = connection.prepareStatement(insertString);
+            prst.setInt(1, summary.getTotalBalance());
+            prst.setInt(2, summary.getCashBalance());
+            prst.setInt(3, summary.getCardsBalance());
+            prst.setInt(4, summary.getDepositsBalance());
+            prst.setTimestamp(5, timestamp);
+            prst.setInt(6, getUserId(connection, userLogin));
+
+            prst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (prst != null) prst.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String getTypeName(ResultSet result) throws SQLException {
