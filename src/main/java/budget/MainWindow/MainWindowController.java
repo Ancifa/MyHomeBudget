@@ -3,8 +3,8 @@ package budget.MainWindow;
 import budget.ActionsData.Action;
 import budget.Administration.AdminController;
 import budget.Administration.User;
+import budget.ui.UiUtils;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -55,7 +55,7 @@ public class MainWindowController {
                 .append("Description\n\n");
         for (Action action : actionsList) {
             stringBuilder.append("   ");
-            stringBuilder.append(getDateString(action.getDate().toLocalDate()) + "\t");
+            stringBuilder.append(UiUtils.getDateString(action.getDate().toLocalDate()) + "\t");
             stringBuilder.append(action.getType() + "\t");
             stringBuilder.append(action.getSumm() + "\t");
             stringBuilder.append(action.getCurrency() + "\t");
@@ -66,13 +66,6 @@ public class MainWindowController {
         }
 
         return String.valueOf(stringBuilder);
-    }
-
-    public String getDateString(LocalDate date) {
-        return String.valueOf(date.getDayOfMonth()) + " "
-                + String.valueOf(date.getMonth()).toLowerCase() + " "
-                + String.valueOf(date.getYear()) + " ("
-                + String.valueOf(date.getDayOfWeek()).toLowerCase() + ")";
     }
 
     public String getLoginValue() {

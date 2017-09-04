@@ -12,12 +12,19 @@ public class InfoBlock extends JFrame {
     private JLabel cardBalanceValue;
     private JLabel depositBalanceValue;
 
+    private String userLogin;
     private InfoBlockController controller;
+    private MainWindowView mainWindowView;
 
-    public Box createInfoBoxLayout(InfoBlockController controller) {
-        this.controller = controller;
+    public InfoBlock(MainWindowView mainWindowView, String userLogin) {
+        this.mainWindowView = mainWindowView;
+        this.userLogin = userLogin;
+    }
+
+    public Box createInfoBoxLayout() {
+        controller = new InfoBlockController(this, userLogin);
         Box box = buildLayout();
-        controller.mountData(this);
+        controller.mountData();
 
         return box;
     }

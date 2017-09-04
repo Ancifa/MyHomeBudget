@@ -191,6 +191,10 @@ public class DataFillingBlock extends JFrame {
         return lastEntryValue;
     }
 
+    public void setLastEntryValue(String lastEntryValueText) {
+        lastEntryValue.setText(lastEntryValueText);
+    }
+
     public DatePickerComponent getDatePicker() {
         return datePicker;
     }
@@ -217,5 +221,9 @@ public class DataFillingBlock extends JFrame {
 
     public JTextArea getActionDescriptionArea() {
         return actionDescriptionArea;
+    }
+
+    public MainWindowView getMainWindowView() {
+        return mainWindowView;
     }
 }

@@ -1,6 +1,7 @@
 package budget.MainWindow;
 
 import budget.ActionsData.Action;
+import budget.ui.UiUtils;
 
 import javax.swing.*;
 import java.sql.Date;
@@ -35,7 +36,8 @@ public class DataFillingController {
     }
 
     public void saveToDatabase(String userLogin) {
-        InfoBlockController infoBlockController = new InfoBlockController(userLogin);
+        InfoBlock infoBlock = dataFillingBlock.getMainWindowView().getInfoBlock();
+        InfoBlockController infoBlockController = new InfoBlockController(infoBlock, userLogin);
         dao = new MainWindowDAO();
         if (action == null) {
             JOptionPane.showMessageDialog(null, "Action record is empty!");
@@ -44,6 +46,8 @@ public class DataFillingController {
             try {
                 dao.insertActionToDatabase(action, userLogin);
                 infoBlockController.saveBudgetSummary(action, userLogin);
+                java.util.Date date = infoBlockController.getBudgetSummary().getLasrEntryDate();
+                dataFillingBlock.setLastEntryValue(UiUtils.getDateString(new java.sql.Date(date.getTime()).toLocalDate()));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }

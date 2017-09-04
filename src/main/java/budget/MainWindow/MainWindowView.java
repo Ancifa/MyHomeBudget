@@ -1,6 +1,7 @@
 package budget.MainWindow;
 
 import budget.Administration.User;
+import budget.ui.UiUtils;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -22,6 +23,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
     private JTextArea textArea;
     private Box centralBox;
     private DataFillingBlock dataFillingBlock;
+    private InfoBlock infoBlock;
 
     private final static String LOG_IN_TEXT = "You are logged in as ";
     private List<User> usersList;
@@ -110,7 +112,7 @@ public class MainWindowView extends JFrame implements SwingConstants{
     }
 
     private void createBottomBlock() {
-        JLabel currentDate = new JLabel(controller.getDateString(LocalDate.now()));
+        JLabel currentDate = new JLabel(UiUtils.getDateString(LocalDate.now()));
         JLabel loginInfo = new JLabel(LOG_IN_TEXT + controller.getLoginValue());
         Box horizontalBox = Box.createHorizontalBox();
         horizontalBox.add(Box.createHorizontalStrut(5));
@@ -123,7 +125,6 @@ public class MainWindowView extends JFrame implements SwingConstants{
     }
 
     private void createCentralArea() {
-        InfoBlockController infoBlockController = new InfoBlockController(userLogin);
         dataFillingBlock = new DataFillingBlock(this, userLogin);
 
         Box infoBox = Box.createHorizontalBox();
@@ -132,8 +133,8 @@ public class MainWindowView extends JFrame implements SwingConstants{
         infoBox.setBorder(new CompoundBorder(new EmptyBorder(1, 0, 1, 2), new LineBorder(Color.GRAY, 1)));
         centralBox.setBorder(new CompoundBorder(new EmptyBorder(1, 0, 1, 2), new LineBorder(Color.GRAY, 1)));
 
-        InfoBlock infoBlock = new InfoBlock();
-        infoBox.add(infoBlock.createInfoBoxLayout(infoBlockController));
+        infoBlock = new InfoBlock(this, userLogin);
+        infoBox.add(infoBlock.createInfoBoxLayout());
         infoBox.setAlignmentX(Box.LEFT_ALIGNMENT);
 
         textArea = new JTextArea(20, 40);
@@ -150,5 +151,9 @@ public class MainWindowView extends JFrame implements SwingConstants{
 
     public String getUserLogin() {
         return userLogin;
+    }
+
+    public InfoBlock getInfoBlock() {
+        return infoBlock;
     }
 }

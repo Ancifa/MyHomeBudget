@@ -13,11 +13,15 @@ public class InfoBlockController {
     private BudgetSummary budgetSummary;
     private MainWindowDAO dao;
 
-    public InfoBlockController(String userLogin) {
+    public InfoBlockController(InfoBlock infoBlock, String userLogin) {
+        this.infoBlock = infoBlock;
         getBudgetSummaryData(userLogin);
     }
 
-    public void mountData(InfoBlock infoBlock) {
+    public void mountData() {
+        if (infoBlock == null) {
+            return;
+        }
         infoBlock.getTotalBalanceValue().setText(String.valueOf(budgetSummary.getTotalBalance()));
         infoBlock.getCashBalanceValue().setText(String.valueOf(budgetSummary.getCashBalance()));
         infoBlock.getCardBalanceValue().setText(String.valueOf(budgetSummary.getCardsBalance()));
@@ -33,8 +37,7 @@ public class InfoBlockController {
         setSummaryData(action);
         dao.updateUserBalance(budgetSummary, userLogin);
         budgetSummary = dao.getUserBalance(userLogin);
-//        mountData(infoBlock);
-
+        mountData();
     }
 
     private void setSummaryData(Action action) {
@@ -45,5 +48,9 @@ public class InfoBlockController {
 
     private void calculateSummaryData(Action action) {
         budgetSummary.setTotalBalance(Integer.parseInt(action.getSumm()));
+    }
+
+    public BudgetSummary getBudgetSummary() {
+        return budgetSummary;
     }
 }
